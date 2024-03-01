@@ -154,35 +154,6 @@ class DataManager {
             print("failed to delete system data")
         }
     }
-    
-    func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLocation?) -> [GBFSSystem] {
-        
-        if !searchText.isEmpty {
-            return systems.filter { system in
-                system.name.lowercased().contains(searchText.lowercased())
-            }
-        }
-        
-        guard let userLocation = userLocation else {
-            return systems
-        }
-        
-        let maxDistance: CLLocationDistance = 30 * 1609.34
-
-        var systemsWithinDistance: [GBFSSystem] = []
-
-        for system in systems {
-            let systemLocation = CLLocation(latitude: system.center_lat, longitude: system.center_lon)
-            let distance = userLocation.distance(from: systemLocation)
-
-            if distance <= maxDistance {
-                systemsWithinDistance.append(system)
-            }
-        }
-
-        return systemsWithinDistance
-    }
-
 
 }
 

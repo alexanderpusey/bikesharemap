@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MapKit
 
 struct ContentView: View {
     
@@ -21,7 +22,7 @@ struct ContentView: View {
                 
                 SearchBar(searchText: $searchText)
 
-                List(dataManager.filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
+                List(filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
                     Text(system.name)
                         .onTapGesture {
                             selectedSystemID = system.system_id
@@ -48,6 +49,7 @@ struct ContentView: View {
                         ToolbarItemGroup(placement: .topBarLeading) {
                             HStack {
                                 Text(selectedSystem!.name)
+                                Spacer()
                             }
                             .onTapGesture {
                                 dataManager.deleteStations()
@@ -82,5 +84,33 @@ struct ContentView: View {
         }
     }
     
+}
+
+func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLocation?) -> [GBFSSystem] {
+    
+    if !searchText.isEmpty {
+        return systems.filter { system in
+            system.name.lowercased().contains(searchText.lowercased())
+        }
+    }
+    
+    guard let userLocation = userLocation else {
+        return systems
+    }
+    
+    let maxDistance: CLLocationDistance = 50 * 1609.34
+
+    var systemsWithinDistance: [GBFSSystem] = []
+
+    for system in systems {
+        let systemLocation = CLLocation(latitude: system.center_lat, longitude: system.center_lon)
+        let distance = userLocation.distance(from: systemLocation)
+
+        if distance <= maxDistance {
+            systemsWithinDistance.append(system)
+        }
+    }
+
+    return systemsWithinDistance
 }
 
