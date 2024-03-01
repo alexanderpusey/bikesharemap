@@ -106,7 +106,7 @@ class DataManager {
     }
     
     @MainActor
-    func refreshStations(system: GBFSSystem) async {
+    func refreshStations(system: GBFSSystem) async -> [GBFSStation] {
         
         do {
             
@@ -133,11 +133,13 @@ class DataManager {
             
             stations = mergedStations
             stationsLoadingState = .idle
+            return mergedStations
             
 
         } catch let error {
             stationsLoadingState = .failed
             print("\(error.localizedDescription)")
+            return []
         }
     }
     

@@ -18,7 +18,7 @@ struct ContentView: View {
         
         NavigationSplitView {
             
-            VStack {
+            VStack (alignment: .leading){
                 
                 SearchBar(searchText: $searchText)
 
@@ -30,6 +30,7 @@ struct ContentView: View {
                         }
                 }
             }
+            .offset(y:-20)
             .onAppear {
                 
                 if let storedSystem = systems.first(where: {$0.system_id == selectedSystemID}) {
@@ -37,9 +38,7 @@ struct ContentView: View {
                 }
                 
             }
-            .task {
-                await dataManager.refreshSystems(modelContext: modelContext)
-            }
+            .task { await dataManager.refreshSystems(modelContext: modelContext)}
             
         } detail: {
             if selectedSystem != nil {
@@ -98,7 +97,7 @@ func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLo
         return systems
     }
     
-    let maxDistance: CLLocationDistance = 50 * 1609.34
+    let maxDistance: CLLocationDistance = 45 * 1609.34
 
     var systemsWithinDistance: [GBFSSystem] = []
 
