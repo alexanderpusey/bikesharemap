@@ -21,19 +21,22 @@ struct ContentView: View {
             VStack (alignment: .leading){
                 
                 SearchBar(searchText: $searchText)
+                    .padding(2)
 
                 List(filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
-                    VStack(alignment: .leading, spacing: 2){
-                        Text(system.name)
-                        Text((system.location))
-                            .font(.subheadline)
-                    }
+                    ListItem(system: system)
                     .onTapGesture {
                         selectedSystemID = system.system_id
                         selectedSystem = system
                     }
                 }
+                #if os(watchOS)
+                .listStyle(.plain)
+                #else
+                .listStyle(.automatic)
+                #endif
             }
+            .padding(.top, -17)
             .onAppear {
                 
                 if let storedSystem = systems.first(where: {$0.system_id == selectedSystemID}) {
@@ -46,35 +49,64 @@ struct ContentView: View {
         } detail: {
             if selectedSystem != nil {
                 MapView(system: selectedSystem!)
+                    .padding()
                     .navigationBarBackButtonHidden(true)
                     .toolbar {
-                        ToolbarItemGroup(placement: .topBarLeading) {
+                        ToolbarItemGroup(placement: .bottomBar) {
                             HStack {
-                                Text(selectedSystem!.name)
-                                Spacer()
-                            }
-                            .onTapGesture {
-                                dataManager.deleteStations()
-                                selectedSystemID = nil
-                                selectedSystem = nil
-                            }
-                        }
-                        ToolbarItemGroup(placement: .destructiveAction) {
-                            ZStack {
-                                if dataManager.stationsLoadingState == .loading {
-                                    ProgressView()
-                                }
-                                else {
-                                    Image(systemName: "arrow.triangle.2.circlepath")
-                                        .opacity(0.7)
+                                HStack (spacing: 2.3) {
+                                    Image(systemName: "list.bullet.circle.fill")
+                                        .font(.system(size: 14))
+                                    Text(selectedSystem!.name)
+                                        .fontWeight(.medium)
+                                        .font(.system(size: 13))
                                         .onTapGesture {
-                                            Task {
-                                                await dataManager.refreshStations(system: selectedSystem!)
-                                            }
+                                            dataManager.deleteStations()
+                                            selectedSystemID = nil
+                                            selectedSystem = nil
                                         }
                                 }
+                                .padding(5)
+                                .background(
+//                                    RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
+//                                        .fill(.blue.opacity(0.7))
+                                    Capsule()
+                                        .fill(.blue.opacity(0.7))
+                                )
+                                Spacer()
                             }
-                            
+                            .frame(width: 130)
+                        }
+                        ToolbarItemGroup(placement: .bottomBar) {
+                            HStack {
+                                HStack {
+                                    switch dataManager.stationsLoadingState {
+                                    case .loading:
+                                            ProgressView()
+                                    case .idle:
+                                        Image(systemName: "arrow.triangle.2.circlepath")
+                                            .font(.system(size: 13))
+                                            .opacity(0.7)
+                                            .onTapGesture {
+                                                Task {
+                                                    await dataManager.refreshStations(system: selectedSystem!)
+                                                }
+                                            }
+                                    case .failed:
+                                        Image(systemName: "wifi.exclamationmark.circle")
+                                            .foregroundStyle(.red)
+                                            .font(.system(size: 13))
+                                    }
+                                }
+                            }
+                        }
+                        ToolbarItem(placement: .topBarLeading) {
+                            Text("FILLLEEEERRRR")
+                                .opacity(0)
+                        }
+                        ToolbarItem(placement: .destructiveAction) {
+                            Text("FILLLEEEERRRR")
+                                .opacity(0)
                         }
                     }
             } else {

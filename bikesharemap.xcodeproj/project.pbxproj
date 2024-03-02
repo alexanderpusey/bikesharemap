@@ -28,6 +28,8 @@
 		FA3466152B916B3700456139 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3466132B916B3700456139 /* MapView.swift */; };
 		FA3466172B916B4300456139 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3466162B916B4300456139 /* SearchBar.swift */; };
 		FA3466182B916B4300456139 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3466162B916B4300456139 /* SearchBar.swift */; };
+		FA3C151E2B93128400472BFF /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3C151D2B93128400472BFF /* ListItem.swift */; };
+		FA3C151F2B93128400472BFF /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3C151D2B93128400472BFF /* ListItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,7 @@
 		FA34660D2B916B2300456139 /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
 		FA3466132B916B3700456139 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		FA3466162B916B4300456139 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		FA3C151D2B93128400472BFF /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,7 @@
 				FA34660D2B916B2300456139 /* MapMarker.swift */,
 				FA3466132B916B3700456139 /* MapView.swift */,
 				FA3466162B916B4300456139 /* SearchBar.swift */,
+				FA3C151D2B93128400472BFF /* ListItem.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -264,6 +268,7 @@
 				FA3466022B916ACF00456139 /* ContentView.swift in Sources */,
 				FA3466142B916B3700456139 /* MapView.swift in Sources */,
 				FA3466082B916B0C00456139 /* DataModel.swift in Sources */,
+				FA3C151E2B93128400472BFF /* ListItem.swift in Sources */,
 				FA34660E2B916B2300456139 /* MapMarker.swift in Sources */,
 				FA34660B2B916B1900456139 /* LocationService.swift in Sources */,
 				FA3466172B916B4300456139 /* SearchBar.swift in Sources */,
@@ -279,6 +284,7 @@
 				FA3466032B916ACF00456139 /* ContentView.swift in Sources */,
 				FA3466152B916B3700456139 /* MapView.swift in Sources */,
 				FA3466092B916B0C00456139 /* DataModel.swift in Sources */,
+				FA3C151F2B93128400472BFF /* ListItem.swift in Sources */,
 				FA34660F2B916B2300456139 /* MapMarker.swift in Sources */,
 				FA34660C2B916B1900456139 /* LocationService.swift in Sources */,
 				FA3466182B916B4300456139 /* SearchBar.swift in Sources */,

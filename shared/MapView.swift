@@ -32,15 +32,15 @@ struct MapView: View {
             }
             .mapStyle(.standard(elevation: .realistic, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
             .mapControlVisibility(.hidden)
-            .ignoresSafeArea()
+            .padding(-10)
             .task {
                 
                 mapPosition = MapCameraPosition.userLocation(followsHeading: true, fallback: MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000)))
                 
                 let refreshedSystems = await dataManager.refreshStations(system: system)
                 
-                if refreshedSystems.count > 300 {
-                    mapBounds = MapCameraBounds(minimumDistance: 200, maximumDistance: 6000)
+                if refreshedSystems.count > 500 {
+                    mapBounds = MapCameraBounds(minimumDistance: 200, maximumDistance: 7000)
                 }
             }
             .onMapCameraChange(frequency: .continuous) { mapCameraUpdateContext in
