@@ -23,14 +23,17 @@ struct ContentView: View {
                 SearchBar(searchText: $searchText)
 
                 List(filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
-                    Text(system.name)
-                        .onTapGesture {
-                            selectedSystemID = system.system_id
-                            selectedSystem = system
-                        }
+                    VStack(alignment: .leading, spacing: 2){
+                        Text(system.name)
+                        Text((system.location))
+                            .font(.subheadline)
+                    }
+                    .onTapGesture {
+                        selectedSystemID = system.system_id
+                        selectedSystem = system
+                    }
                 }
             }
-            .offset(y:-20)
             .onAppear {
                 
                 if let storedSystem = systems.first(where: {$0.system_id == selectedSystemID}) {

@@ -17,31 +17,21 @@ struct MapView: View {
             
         Map (position: $mapPosition, bounds: mapBounds) {
                 
-                ForEach(filterStations(stations: dataManager.stations, mapRegion: mapRegion)) { station in
-                    
-                    Annotation(station.name, coordinate: CLLocationCoordinate2D(latitude: station.lat, longitude: station.lon)) {
-                        MapMarker(station: station, mapPosition: mapPosition)
-                    }
-                                
+            ForEach(filterStations(stations: dataManager.stations, mapRegion: mapRegion)) { station in
+                
+                Annotation(station.name, coordinate: CLLocationCoordinate2D(latitude: station.lat, longitude: station.lon)) {
+                    MapMarker(station: station, mapRegion: mapRegion)
                 }
-                .annotationTitles(.hidden)
-                
-//                DistanceIndicator(userLocation: locationService.$location, stations: stations)
-                
-                UserAnnotation(anchor: .center)
-                    .mapOverlayLevel(level: .aboveLabels)
+                            
+            }
+            .annotationTitles(.hidden)
+    
+            UserAnnotation(anchor: .center)
+                .mapOverlayLevel(level: .aboveLabels)
+            
             }
             .mapStyle(.standard(elevation: .realistic, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
-            .mapControls {
-                
-            }
-            .mapControls {
-                #if os(watchOS)
-                MapLocationCompass()
-                #else
-                MapUserLocationButton()
-                #endif
-            }
+            .mapControlVisibility(.hidden)
             .ignoresSafeArea()
             .task {
                 
@@ -49,8 +39,8 @@ struct MapView: View {
                 
                 let refreshedSystems = await dataManager.refreshStations(system: system)
                 
-                if refreshedSystems.count > 1000 {
-                    mapBounds = MapCameraBounds(minimumDistance: 200, maximumDistance: 4000)
+                if refreshedSystems.count > 300 {
+                    mapBounds = MapCameraBounds(minimumDistance: 200, maximumDistance: 6000)
                 }
             }
             .onMapCameraChange(frequency: .continuous) { mapCameraUpdateContext in
@@ -71,7 +61,7 @@ func filterStations(stations: [GBFSStation], mapRegion: MKCoordinateRegion?) -> 
             let filteredStations = stations.filter { station in
                     let stationLocation = CLLocation(latitude: station.lat, longitude: station.lon)
                     let distance = stationLocation.distance(from: CLLocation(latitude: center.latitude, longitude: center.longitude))
-                return distance <= (length.longitudeDelta * 90000)
+                return distance <= (length.longitudeDelta * 80000)
                 }
             
             return filteredStations
@@ -82,4 +72,25 @@ func filterStations(stations: [GBFSStation], mapRegion: MKCoordinateRegion?) -> 
     else {
         return stations
     }
+}
+
+func closestStation(userLocation: CLLocation?, stations: [GBFSStation]) -> GBFSStation? {
+    guard let userLocation = userLocation else {
+        return nil
+    }
+
+    var closestStation: GBFSStation?
+    var minDistance: CLLocationDistance = Double.greatestFiniteMagnitude
+
+    for station in stations {
+        let stationLocation = CLLocation(latitude: station.lat, longitude: station.lon)
+        let distance = userLocation.distance(from: stationLocation)
+
+        if distance < minDistance {
+            minDistance = distance
+            closestStation = station
+        }
+    }
+
+    return closestStation
 }

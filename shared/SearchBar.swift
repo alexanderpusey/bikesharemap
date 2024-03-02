@@ -8,14 +8,15 @@ struct SearchBar: View {
             if searchText.isEmpty {
                 #if os(watchOS)
                 TextFieldLink(prompt: Text("Search"), label: {
-                    HStack(alignment: .firstTextBaseline, spacing: 1.4) {
+                    HStack(alignment: .center, spacing: 1.4) {
                         Image(systemName: "magnifyingglass").imageScale(.small)
                         Text("Systems")
                     }
-                    .opacity(0.4)
+                    .opacity(0.7)
                 }, onSubmit: { text in
                     searchText = text
                 })
+                .fontWeight(.bold)
                 .buttonStyle(.borderless)
                 .allowsHitTesting(true)
                 .disableAutocorrection(true)
@@ -25,16 +26,16 @@ struct SearchBar: View {
                 #endif
             }
             if !searchText.isEmpty {
-                HStack(alignment: .firstTextBaseline, spacing: 1.4) {
+                HStack(spacing: 1.7) {
+                    Text(searchText)
+                    .opacity(0.3)
                     Button {
                         searchText = ""
                     } label: {
                         Image(systemName: "xmark").imageScale(.small)
-                            .opacity(0.4)
+                            .opacity(0.7)
                     }
                     .buttonStyle(.borderless)
-                    Text(searchText)
-                    .opacity(0.3)
                 }
                 
             }

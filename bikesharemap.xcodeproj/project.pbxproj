@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA0FE29A2B917C0D009667F1 /* DistanceIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FE2992B917C0D009667F1 /* DistanceIndicator.swift */; };
-		FA0FE29B2B917C0D009667F1 /* DistanceIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0FE2992B917C0D009667F1 /* DistanceIndicator.swift */; };
 		FA3465DD2B916A3800456139 /* bikesharemapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3465DC2B916A3800456139 /* bikesharemapApp.swift */; };
 		FA3465E12B916A3900456139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3465E02B916A3900456139 /* Assets.xcassets */; };
 		FA3465E42B916A3900456139 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA3465E32B916A3900456139 /* Preview Assets.xcassets */; };
@@ -57,7 +55,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FA0FE2992B917C0D009667F1 /* DistanceIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceIndicator.swift; sourceTree = "<group>"; };
 		FA3465D92B916A3800456139 /* bikesharemap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bikesharemap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3465DC2B916A3800456139 /* bikesharemapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bikesharemapApp.swift; sourceTree = "<group>"; };
 		FA3465E02B916A3900456139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -158,7 +155,6 @@
 				FA34660D2B916B2300456139 /* MapMarker.swift */,
 				FA3466132B916B3700456139 /* MapView.swift */,
 				FA3466162B916B4300456139 /* SearchBar.swift */,
-				FA0FE2992B917C0D009667F1 /* DistanceIndicator.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -270,7 +266,6 @@
 				FA3466082B916B0C00456139 /* DataModel.swift in Sources */,
 				FA34660E2B916B2300456139 /* MapMarker.swift in Sources */,
 				FA34660B2B916B1900456139 /* LocationService.swift in Sources */,
-				FA0FE29A2B917C0D009667F1 /* DistanceIndicator.swift in Sources */,
 				FA3466172B916B4300456139 /* SearchBar.swift in Sources */,
 				FA3466052B916B0400456139 /* DataManager.swift in Sources */,
 				FA3465DD2B916A3800456139 /* bikesharemapApp.swift in Sources */,
@@ -286,7 +281,6 @@
 				FA3466092B916B0C00456139 /* DataModel.swift in Sources */,
 				FA34660F2B916B2300456139 /* MapMarker.swift in Sources */,
 				FA34660C2B916B1900456139 /* LocationService.swift in Sources */,
-				FA0FE29B2B917C0D009667F1 /* DistanceIndicator.swift in Sources */,
 				FA3466182B916B4300456139 /* SearchBar.swift in Sources */,
 				FA3466062B916B0400456139 /* DataManager.swift in Sources */,
 				FA3465EF2B916A3900456139 /* bikesharemapApp.swift in Sources */,

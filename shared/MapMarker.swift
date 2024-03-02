@@ -3,8 +3,10 @@ import MapKit
 
 struct MapMarker: View {
     
+    @State
+    
     var station : GBFSStation
-    var mapPosition : MapCameraPosition
+    var mapRegion : MKCoordinateRegion?
     
     func markerColor(count: Int) -> Color {
         switch count {
@@ -19,16 +21,35 @@ struct MapMarker: View {
         }
     }
     
+    func closeUp(mapRegion: MKCoordinateRegion?) -> Bool {
+        
+        let span = Double(mapRegion?.span.longitudeDelta ?? 20)
+        
+        if span > 0.01 {
+            return false
+        }
+        else {
+            return true
+        }
+        
+    }
+    
     var body: some View {
-        Text("\(station.bikesAvailable)")
-            .foregroundColor(.white) // Set text color to white for better visibility
-            .font(.system(size: 20)) // Adjust font size as needed
-            .padding(6) // Increase padding to provide space around the text
-            .background(
+        ZStack (alignment: .center) {
+            if closeUp(mapRegion: mapRegion) {
                 Circle()
                     .fill(markerColor(count: station.bikesAvailable))
-                    .frame(width: 35, height: 35) // Set the width and height to make the circle larger
-            )
+                    .frame(width: 25)
+                Text("\(station.bikesAvailable)")
+                    .padding(2)
+                    .fontWeight(.semibold)
+            }
+            else {
+                Circle()
+                    .fill(markerColor(count: station.bikesAvailable))
+                    .frame(width: 8)
+            }
+        }
     }
 }
 
