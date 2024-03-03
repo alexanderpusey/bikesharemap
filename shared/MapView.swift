@@ -46,6 +46,16 @@ struct MapView: View {
             .onMapCameraChange(frequency: .continuous) { mapCameraUpdateContext in
                 mapRegion = mapCameraUpdateContext.region
             }
+            .onChange(of: locationService.location) {
+                if let userLocation = locationService.location {
+                    let mapPin = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+                    let distanceFrom = mapPin.distance(from: CLLocation(latitude: system.center_lat, longitude: system.center_lon))
+                    let maxDistance: CLLocationDistance = 45 * 1609.34
+                    if distanceFrom > maxDistance {
+                        mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000))
+                    }
+                }
+            }
 
     }
     

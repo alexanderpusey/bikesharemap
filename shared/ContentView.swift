@@ -52,11 +52,11 @@ struct ContentView: View {
                     .padding()
                     .navigationBarBackButtonHidden(true)
                     .toolbar {
-                        ToolbarItemGroup(placement: .bottomBar) {
+                        ToolbarItemGroup(placement: .topBarLeading) {
                             HStack {
                                 HStack (spacing: 2.3) {
-                                    Image(systemName: "list.bullet.circle.fill")
-                                        .font(.system(size: 14))
+                                    Image(systemName: "list.bullet")
+                                        .font(.system(size: 13))
                                     Text(selectedSystem!.name)
                                         .fontWeight(.medium)
                                         .font(.system(size: 13))
@@ -67,17 +67,12 @@ struct ContentView: View {
                                         }
                                 }
                                 .padding(5)
-                                .background(
-//                                    RoundedRectangle(cornerSize: CGSize(width: 8, height: 8))
-//                                        .fill(.blue.opacity(0.7))
-                                    Capsule()
-                                        .fill(.blue.opacity(0.7))
-                                )
                                 Spacer()
                             }
                             .frame(width: 130)
                         }
                         ToolbarItemGroup(placement: .bottomBar) {
+                            Spacer()
                             HStack {
                                 HStack {
                                     switch dataManager.stationsLoadingState {
@@ -93,7 +88,7 @@ struct ContentView: View {
                                                 }
                                             }
                                     case .failed:
-                                        Image(systemName: "wifi.exclamationmark.circle")
+                                        Image(systemName: "network.slash")
                                             .foregroundStyle(.red)
                                             .font(.system(size: 13))
                                     }
