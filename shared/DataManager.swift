@@ -23,8 +23,6 @@ class DataManager {
     func fetchSystems() async throws -> [JSONSystem] {
         
         let url = URL(string: "http://localhost:3000/systems")!
-        
-        print("fetching systems...")
         let session = URLSession.shared
         guard let (data, response) = try? await session.data(from: url),
               let httpResponse = response as? HTTPURLResponse,
@@ -33,8 +31,7 @@ class DataManager {
             print("failed to fetch")
             throw DataError.fetchError
         }
-        
-        print("decoding systems...")
+    
         do {
             let jsonDecoder = JSONDecoder()
             return try jsonDecoder.decode([JSONSystem].self, from: data)
@@ -51,7 +48,6 @@ class DataManager {
         do {
             let JSONSystems = try await fetchSystems()
             
-            print("inserting systems into storage...")
             for feature in JSONSystems {
                 let system = GBFSSystem(name: feature.name, location: feature.location, system_id: feature.system_id, station_information_url: feature.station_information_url, station_status_url: feature.station_status_url, center_lat: feature.center_lat, center_lon: feature.center_lon)
                 modelContext.insert(system)
@@ -67,8 +63,6 @@ class DataManager {
         let infoURL = URL(string: system.station_information_url)!
         let statusURL = URL(string: system.station_status_url)!
         
-//        fetch station information data
-        print("fetching station information data...")
         guard let (infoData, response) = try? await URLSession.shared.data(from: infoURL),
               let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200
@@ -78,8 +72,6 @@ class DataManager {
             throw DataError.fetchError
         }
         
-//        fetch station status data
-        print("fetching station status data...")
         guard let (statusData, response) = try? await URLSession.shared.data(from: statusURL),
               let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200
@@ -89,9 +81,7 @@ class DataManager {
             throw DataError.fetchError
         }
 
-//        parse and return JSON
         do {
-            print("decoding station jsons...")
             let stationInformation = try JSONDecoder().decode(JSONStationInformation.self, from: infoData)
             let stationStatus = try JSONDecoder().decode(JSONStationStatus.self, from: statusData)
             
@@ -115,7 +105,6 @@ class DataManager {
             let fetchedstations = try await fetchStations(system: system)
             var mergedStations : [GBFSStation] = []
             
-            print("combining station json and inserting into storage...")
             for station in fetchedstations.info.data.stations {
                 
                 if let status = fetchedstations.status.data.stations.first(where: {$0.station_id == station.station_id}) {
@@ -141,6 +130,9 @@ class DataManager {
             print("\(error.localizedDescription)")
             return []
         }
+        
+        
+        
     }
     
     func deleteStations() {

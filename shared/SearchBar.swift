@@ -5,15 +5,16 @@ struct SearchBar: View {
     @Binding var searchText : String
     
     var body: some View {
+        
             if searchText.isEmpty {
                 #if os(watchOS)
                 TextFieldLink(prompt: Text("Search"), label: {
                     HStack(alignment: .center, spacing: 1.4) {
                         Image(systemName: "magnifyingglass")
                             .imageScale(.small)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Color("TitleColor"))
                         Text("Systems")
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Color("TitleColor"))
                     }
                     .fontWeight(.bold)
                     .opacity(0.7)
@@ -24,8 +25,8 @@ struct SearchBar: View {
                 .allowsHitTesting(true)
                 .autocorrectionDisabled(true)
                 #else
-                TextField("", text: $searchText)
-                    .disableAutocorrection(true)
+                TextField("Search", text: $searchText)
+                    .autocorrectionDisabled(true)
                 #endif
             }
             if !searchText.isEmpty {

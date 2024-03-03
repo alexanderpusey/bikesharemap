@@ -24,19 +24,17 @@ struct ContentView: View {
                     .padding(2)
 
                 List(filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
+                    
                     ListItem(system: system)
-                    .onTapGesture {
-                        selectedSystemID = system.system_id
-                        selectedSystem = system
-                    }
+                        .onTapGesture {
+                            selectedSystem = system
+                            selectedSystemID = system.system_id
+                        }
+                    
                 }
-                #if os(watchOS)
                 .listStyle(.plain)
-                #else
-                .listStyle(.automatic)
-                #endif
+                
             }
-            .padding(.top, -17)
             .onAppear {
                 
                 if let storedSystem = systems.first(where: {$0.system_id == selectedSystemID}) {
@@ -44,72 +42,70 @@ struct ContentView: View {
                 }
                 
             }
-            .task { await dataManager.refreshSystems(modelContext: modelContext)}
+            .task { await dataManager.refreshSystems(modelContext: modelContext) }
+            .padding(.top, -17)
             
         } detail: {
+            
             if selectedSystem != nil {
+                
                 MapView(system: selectedSystem!)
-                    .padding()
                     .navigationBarBackButtonHidden(true)
                     .toolbar {
+                        
                         ToolbarItemGroup(placement: .topBarLeading) {
-                            HStack {
-                                HStack (spacing: 2.3) {
-                                    Image(systemName: "list.bullet")
-                                        .font(.system(size: 14))
-                                    Text(selectedSystem!.name)
-                                        .fontWeight(.medium)
-                                        .font(.system(size: 14))
-                                        .onTapGesture {
-                                            dataManager.deleteStations()
-                                            selectedSystemID = nil
-                                            selectedSystem = nil
-                                        }
-                                }
-                                .padding(5)
-                                Spacer()
+                            HStack (spacing: 2.3) {
+                                Image(systemName: "list.bullet")
+                                    .font(.system(size: 14))
+                                Text(selectedSystem!.name)
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 14))
                             }
-                            .frame(width: 130)
+                            .onTapGesture {
+                                dataManager.deleteStations()
+                                selectedSystemID = nil
+                                selectedSystem = nil
+                            }
+                            .padding(5)
+                            .contentShape(.rect)
+                            Spacer()
                         }
+                        
                         ToolbarItemGroup(placement: .bottomBar) {
                             Spacer()
-                            HStack {
-                                HStack {
-                                    switch dataManager.stationsLoadingState {
-                                    case .loading:
-                                            ProgressView()
-                                    case .idle:
-                                        Image(systemName: "arrow.triangle.2.circlepath")
-                                            .font(.system(size: 13))
-                                            .opacity(0.7)
-                                            .onTapGesture {
-                                                Task {
-                                                    await dataManager.refreshStations(system: selectedSystem!)
-                                                }
+                            ZStack {
+                                switch dataManager.stationsLoadingState {
+                                case .loading:
+                                        ProgressView()
+                                        .scaleEffect(0.8)
+                                case .idle:
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                        .font(.system(size: 14))
+                                        .opacity(0.7)
+                                        .onTapGesture {
+                                            Task {
+                                                await dataManager.refreshStations(system: selectedSystem!)
                                             }
-                                    case .failed:
-                                        Image(systemName: "network.slash")
-                                            .foregroundStyle(.red)
-                                            .font(.system(size: 13))
-                                    }
+                                        }
+                                case .failed:
+                                    Image(systemName: "network.slash")
+                                        .foregroundStyle(.red)
+                                        .font(.system(size: 14))
                                 }
                             }
+                            .offset(x: -1, y : 3.5)
                         }
-                        ToolbarItem(placement: .topBarLeading) {
-                            Text("FILLLEEEERRRR")
-                                .opacity(0)
-                        }
+                        
                         ToolbarItem(placement: .destructiveAction) {
-                            Text("FILLLEEEERRRR")
+                            Text("0")
                                 .opacity(0)
                         }
+                        
                     }
-            } else {
-                EmptyView()
-            }
-        }
-        .task {
-            locationService.enableLocationFeatures()
+            } 
+            
+            else { EmptyView() }
+            
         }
     }
     
@@ -142,4 +138,3 @@ func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLo
 
     return systemsWithinDistance
 }
-

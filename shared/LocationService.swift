@@ -3,7 +3,6 @@ import CoreLocation
 
 class LocationService : NSObject, CLLocationManagerDelegate, ObservableObject {
     var locationManager = CLLocationManager()
-//    TODO: change to stored variables
     @Published var location: CLLocation?
     
     override init() {
@@ -39,7 +38,6 @@ class LocationService : NSObject, CLLocationManagerDelegate, ObservableObject {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        TODO: only set if coordinates are different
         if let newLocation = locations.first {
             location = newLocation
         }
@@ -53,10 +51,6 @@ class LocationService : NSObject, CLLocationManagerDelegate, ObservableObject {
     func disableLocationFeatures() {
         locationManager.stopUpdatingLocation()
         locationManager.stopUpdatingHeading()
-    }
-    
-    func getUserLocation() {
-//        return locationManager.
     }
     
 }

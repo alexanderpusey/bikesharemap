@@ -47,20 +47,24 @@ struct MapView: View {
                 mapRegion = mapCameraUpdateContext.region
             }
             .onChange(of: locationService.location) {
+//              if user's location is far away from system center, move the camera to system center
                 if let userLocation = locationService.location {
-                    let mapPin = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-                    let distanceFrom = mapPin.distance(from: CLLocation(latitude: system.center_lat, longitude: system.center_lon))
+                    let userCLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+                    let distanceFrom = userCLLocation.distance(from: CLLocation(latitude: system.center_lat, longitude: system.center_lon))
                     let maxDistance: CLLocationDistance = 45 * 1609.34
                     if distanceFrom > maxDistance {
                         mapPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000))
                     }
                 }
+                
             }
 
     }
     
 }
 
+//used for optimizing which stations are rendered on the map
+//filters stations by whether their distance from map region center exceeds a value multiplied by mapregionLength
 func filterStations(stations: [GBFSStation], mapRegion: MKCoordinateRegion?) -> [GBFSStation] {
     if stations.count > 300 {
 

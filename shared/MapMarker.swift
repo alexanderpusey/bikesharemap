@@ -3,8 +3,6 @@ import MapKit
 
 struct MapMarker: View {
     
-    @State
-    
     var station : GBFSStation
     var mapRegion : MKCoordinateRegion?
     

@@ -10,7 +10,8 @@ struct ListItem: View {
                 Text(system.name)
                     .font(.headline)
                 Text((system.location))
-                    .font(.subheadline)
+                    .font(.footnote)
+                    .opacity(0.5)
             }
             Spacer()
         }
