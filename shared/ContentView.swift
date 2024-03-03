@@ -56,10 +56,10 @@ struct ContentView: View {
                             HStack {
                                 HStack (spacing: 2.3) {
                                     Image(systemName: "list.bullet")
-                                        .font(.system(size: 13))
+                                        .font(.system(size: 14))
                                     Text(selectedSystem!.name)
                                         .fontWeight(.medium)
-                                        .font(.system(size: 13))
+                                        .font(.system(size: 14))
                                         .onTapGesture {
                                             dataManager.deleteStations()
                                             selectedSystemID = nil
