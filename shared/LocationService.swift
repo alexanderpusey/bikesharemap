@@ -53,5 +53,9 @@ class LocationService : NSObject, CLLocationManagerDelegate, ObservableObject {
         locationManager.stopUpdatingHeading()
     }
     
+    func getAuthorizationStatus() -> CLAuthorizationStatus {
+        return locationManager.authorizationStatus
+    }
+    
 }
 

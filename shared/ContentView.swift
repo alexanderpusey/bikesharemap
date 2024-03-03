@@ -60,40 +60,15 @@ struct ContentView: View {
                                 Text(selectedSystem!.name)
                                     .fontWeight(.medium)
                                     .font(.system(size: 14))
+                                    .lineLimit(1)
                             }
                             .onTapGesture {
                                 dataManager.deleteStations()
                                 selectedSystemID = nil
                                 selectedSystem = nil
                             }
-                            .padding(5)
                             .contentShape(.rect)
                             Spacer()
-                        }
-                        
-                        ToolbarItemGroup(placement: .bottomBar) {
-                            Spacer()
-                            ZStack {
-                                switch dataManager.stationsLoadingState {
-                                case .loading:
-                                        ProgressView()
-                                        .scaleEffect(0.8)
-                                case .idle:
-                                    Image(systemName: "arrow.triangle.2.circlepath")
-                                        .font(.system(size: 14))
-                                        .opacity(0.7)
-                                        .onTapGesture {
-                                            Task {
-                                                await dataManager.refreshStations(system: selectedSystem!)
-                                            }
-                                        }
-                                case .failed:
-                                    Image(systemName: "network.slash")
-                                        .foregroundStyle(.red)
-                                        .font(.system(size: 14))
-                                }
-                            }
-                            .offset(x: -1, y : 3.5)
                         }
                         
                         ToolbarItem(placement: .destructiveAction) {
@@ -106,6 +81,9 @@ struct ContentView: View {
             
             else { EmptyView() }
             
+        }
+        .task {
+            locationService.enableLocationFeatures()
         }
     }
     

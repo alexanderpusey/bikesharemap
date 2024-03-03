@@ -8,6 +8,7 @@ struct MapView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(DataManager.self) private var dataManager
     @State var stations: [GBFSStation] = []
+    @State var showingUserLocationButton = false
     @ObservedObject var locationService = LocationService()
     @State var mapPosition = MapCameraPosition.automatic
     @State var mapRegion : MKCoordinateRegion? = nil
@@ -25,6 +26,8 @@ struct MapView: View {
                             
             }
             .annotationTitles(.hidden)
+            
+            
     
             UserAnnotation(anchor: .center)
                 .mapOverlayLevel(level: .aboveLabels)
@@ -32,9 +35,46 @@ struct MapView: View {
             }
             .mapStyle(.standard(elevation: .realistic, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
             .mapControlVisibility(.hidden)
-            .padding(-10)
-            .task {
+            .toolbar {
                 
+                ToolbarItemGroup(placement: .bottomBar) {
+                    if showingUserLocationButton {
+                        Image(systemName: "location.circle.fill")
+                            .font(.system(size: 14))
+                            .opacity(0.7)
+                            .offset(x: 1, y : 4.5)
+                            .onTapGesture {
+                                Task {
+                                    mapPosition = MapCameraPosition.userLocation(followsHeading: true, fallback: MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000)))
+                                }
+                            }
+                    }
+                    Spacer()
+                    ZStack {
+                        switch dataManager.stationsLoadingState {
+                        case .loading:
+                                ProgressView()
+                                .scaleEffect(0.8)
+                        case .idle:
+                            Image(systemName: "arrow.clockwise.circle.fill")
+                                .font(.system(size: 14))
+                                .opacity(0.7)
+                                .onTapGesture {
+                                    Task {
+                                        await dataManager.refreshStations(system: system)
+                                    }
+                                }
+                        case .failed:
+                            Image(systemName: "network.slash")
+                                .foregroundStyle(.red)
+                                .font(.system(size: 14))
+                        }
+                    }
+                    .offset(x: -1, y : 4.5)
+                }
+                
+            }
+            .task {
                 mapPosition = MapCameraPosition.userLocation(followsHeading: true, fallback: MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000)))
                 
                 let refreshedSystems = await dataManager.refreshStations(system: system)
@@ -57,6 +97,24 @@ struct MapView: View {
                     }
                 }
                 
+            }
+            .onChange(of: mapPosition) {
+//              show user location button if within distance
+                if let userLocation = locationService.location, let region = mapRegion {
+                    let userCLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+                    let distanceFrom = userCLLocation.distance(from: CLLocation(latitude: region.center.latitude, longitude: region.center.longitude))
+                    let maxDistance: CLLocationDistance = 45 * 1609.34
+                    if distanceFrom > 0.01 && distanceFrom < maxDistance {
+                        print("triggered")
+                        showingUserLocationButton = true
+                    }
+                    else {
+                        showingUserLocationButton = false
+                    }
+                }
+                else {
+                    showingUserLocationButton = false
+                }
             }
 
     }
