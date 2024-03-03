@@ -42,7 +42,7 @@ struct MapView: View {
                         Image(systemName: "location.circle.fill")
                             .font(.system(size: 14))
                             .opacity(0.7)
-                            .offset(x: 1, y : 4.5)
+                            .offset(x: 1, y: 4.5)
                             .onTapGesture {
                                 Task {
                                     mapPosition = MapCameraPosition.userLocation(followsHeading: true, fallback: MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000)))
@@ -77,9 +77,9 @@ struct MapView: View {
             .task {
                 mapPosition = MapCameraPosition.userLocation(followsHeading: true, fallback: MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: system.center_lat, longitude: system.center_lon), latitudinalMeters: 2000, longitudinalMeters: 2000)))
                 
-                let refreshedSystems = await dataManager.refreshStations(system: system)
+                let refreshedStations = await dataManager.refreshStations(system: system)
                 
-                if refreshedSystems.count > 500 {
+                if refreshedStations.count > 500 {
                     mapBounds = MapCameraBounds(minimumDistance: 200, maximumDistance: 7000)
                 }
             }
@@ -99,13 +99,14 @@ struct MapView: View {
                 
             }
             .onChange(of: mapPosition) {
-//              show user location button if within distance
+//              show user location centering button if within distance
                 if let userLocation = locationService.location, let region = mapRegion {
+                
                     let userCLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
                     let distanceFrom = userCLLocation.distance(from: CLLocation(latitude: region.center.latitude, longitude: region.center.longitude))
                     let maxDistance: CLLocationDistance = 45 * 1609.34
+//                  if map isn't on user location and isn't super far away either
                     if distanceFrom > 0.01 && distanceFrom < maxDistance {
-                        print("triggered")
                         showingUserLocationButton = true
                     }
                     else {

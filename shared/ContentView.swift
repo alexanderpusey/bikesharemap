@@ -56,12 +56,12 @@ struct ContentView: View {
                         ToolbarItemGroup(placement: .topBarLeading) {
                             HStack (spacing: 2.3) {
                                 Image(systemName: "list.bullet")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 14, weight: .semibold))
                                 Text(selectedSystem!.name)
-                                    .fontWeight(.medium)
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 14, weight: .semibold))
                                     .lineLimit(1)
                             }
+                            .opacity(0.9)
                             .onTapGesture {
                                 dataManager.deleteStations()
                                 selectedSystemID = nil

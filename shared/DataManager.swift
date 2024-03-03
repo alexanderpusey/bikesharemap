@@ -1,7 +1,6 @@
 import Foundation
 import SwiftUI
 import SwiftData
-import CoreLocation
 
 @Observable
 class DataManager {
@@ -150,4 +149,3 @@ class DataManager {
     }
 
 }
-
