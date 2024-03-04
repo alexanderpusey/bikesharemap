@@ -30,6 +30,8 @@
 		FA3466182B916B4300456139 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3466162B916B4300456139 /* SearchBar.swift */; };
 		FA3C151E2B93128400472BFF /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3C151D2B93128400472BFF /* ListItem.swift */; };
 		FA3C151F2B93128400472BFF /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3C151D2B93128400472BFF /* ListItem.swift */; };
+		FA982D652B954F5C006DF2D5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA982D642B954F5C006DF2D5 /* SettingsView.swift */; };
+		FA982D662B954F5C006DF2D5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA982D642B954F5C006DF2D5 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,7 @@
 		FA3466132B916B3700456139 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		FA3466162B916B4300456139 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		FA3C151D2B93128400472BFF /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		FA982D642B954F5C006DF2D5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +162,7 @@
 				FA3466132B916B3700456139 /* MapView.swift */,
 				FA3466162B916B4300456139 /* SearchBar.swift */,
 				FA3C151D2B93128400472BFF /* ListItem.swift */,
+				FA982D642B954F5C006DF2D5 /* SettingsView.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -274,6 +278,7 @@
 				FA3466172B916B4300456139 /* SearchBar.swift in Sources */,
 				FA3466052B916B0400456139 /* DataManager.swift in Sources */,
 				FA3465DD2B916A3800456139 /* bikesharemapApp.swift in Sources */,
+				FA982D652B954F5C006DF2D5 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +295,7 @@
 				FA3466182B916B4300456139 /* SearchBar.swift in Sources */,
 				FA3466062B916B0400456139 /* DataManager.swift in Sources */,
 				FA3465EF2B916A3900456139 /* bikesharemapApp.swift in Sources */,
+				FA982D662B954F5C006DF2D5 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

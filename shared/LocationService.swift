@@ -25,10 +25,12 @@ class LocationService : NSObject, CLLocationManagerDelegate, ObservableObject {
             break
             
         case .restricted, .denied:
+            location = nil
             disableLocationFeatures()
             break
             
         case .notDetermined:
+            location = nil
             manager.requestWhenInUseAuthorization()
             break
             

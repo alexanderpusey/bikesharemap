@@ -101,7 +101,7 @@ func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLo
         return systems
     }
     
-    let maxDistance: CLLocationDistance = 45 * 1609.34
+    let maxDistance: CLLocationDistance = 40 * 1609.34
 
     var systemsWithinDistance: [GBFSSystem] = []
 
