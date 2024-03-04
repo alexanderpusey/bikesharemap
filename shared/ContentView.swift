@@ -20,8 +20,10 @@ struct ContentView: View {
             
             VStack (alignment: .leading){
                 
+                #if os(watchOS)
                 SearchBar(searchText: $searchText)
                     .padding(2)
+                #endif
 
                 List(filterSystems(systems: systems, searchText: searchText, userLocation: locationService.location), selection: $selectedSystem) { system in
                     
@@ -33,6 +35,11 @@ struct ContentView: View {
                     
                 }
                 .listStyle(.plain)
+                #if os(iOS)
+                .padding()
+                .searchable(text: $searchText, placement: .navigationBarDrawer)
+                .autocorrectionDisabled()
+                #endif
                 
             }
             .onAppear {
@@ -77,7 +84,8 @@ struct ContentView: View {
                         }
                         
                     }
-            } 
+                    .toolbarBackground(.hidden, for: .automatic)
+            }
             
             else { EmptyView() }
             
@@ -93,7 +101,8 @@ func filterSystems(systems: [GBFSSystem], searchText: String, userLocation: CLLo
     
     if !searchText.isEmpty {
         return systems.filter { system in
-            system.name.lowercased().contains(searchText.lowercased())
+            system.name.lowercased().contains(searchText.lowercased()) ||
+            system.location.lowercased().contains(searchText.lowercased())
         }
     }
     
