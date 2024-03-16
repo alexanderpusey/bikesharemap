@@ -21,7 +21,7 @@ class DataManager {
     
     func fetchSystems() async throws -> [JSONSystem] {
         
-        let url = URL(string: "http://localhost:3000/systems")!
+        let url = URL(string: "https://alexanderpusey.github.io/projects/bikesharemap/systems.json")!
         let session = URLSession.shared
         guard let (data, response) = try? await session.data(from: url),
               let httpResponse = response as? HTTPURLResponse,

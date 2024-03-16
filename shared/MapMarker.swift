@@ -39,6 +39,7 @@ struct MapMarker: View {
                     .fill(markerColor(count: station.bikesAvailable))
                     .frame(width: 25)
                 Text("\(station.bikesAvailable)")
+                    .foregroundStyle(.white)
                     .padding(2)
                     .fontWeight(.semibold)
             }

@@ -39,15 +39,16 @@ struct ContentView: View {
                 .padding()
                 .searchable(text: $searchText, placement: .navigationBarDrawer)
                 .autocorrectionDisabled()
+                .navigationTitle("bikesharemap")
                 #endif
-                
             }
+
             .onAppear {
                 
                 if let storedSystem = systems.first(where: {$0.system_id == selectedSystemID}) {
                     selectedSystem = storedSystem
                 }
-                
+
             }
             .task { await dataManager.refreshSystems(modelContext: modelContext) }
             .padding(.top, -17)
@@ -62,8 +63,13 @@ struct ContentView: View {
                         
                         ToolbarItemGroup(placement: .topBarLeading) {
                             HStack (spacing: 2.3) {
+                                #if os(watchOS)
                                 Image(systemName: "list.bullet")
                                     .font(.system(size: 14, weight: .semibold))
+                                #else
+                                Image(systemName: "chevron.backward")
+                                    .font(.system(size: 12, weight: .semibold))
+                                #endif
                                 Text(selectedSystem!.name)
                                     .font(.system(size: 14, weight: .semibold))
                                     .lineLimit(1)
